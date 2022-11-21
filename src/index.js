@@ -5,11 +5,17 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import {reducer} from './reducer';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import rootSaga from './saga';
+import createSagaMiddleware from 'redux-saga';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const store = createStore(reducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const sagaMiddle = createSagaMiddleware();
+const middleware = [sagaMiddle];
+const store = compose(
+              applyMiddleware(...middleware),window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+              (createStore)(reducer);
+sagaMiddle.run(rootSaga);
 root.render(
   <React.StrictMode>
     <Provider store={store}>

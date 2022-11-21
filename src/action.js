@@ -11,3 +11,9 @@ export const petDecrement = (number) => {
         payload: number
     }
 }
+
+export const getUsers = () => {
+    return{
+        type: "GET_USER_REQUEST"
+    }
+}
